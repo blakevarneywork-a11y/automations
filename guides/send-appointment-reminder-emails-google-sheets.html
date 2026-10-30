@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to send automatic appointment reminder emails from Google Sheets</title>
+<meta name="description" content="If you run a salon, clinic, tutoring practice or any business that works by appointment, a forgotten booking is an empty chair and lost income. A reminder email">
+<link rel="stylesheet" href="../style.css">
+</head><body>
+<header><a class="brand" href="../index.html">Small Business Automations</a><nav><a href="../index.html#products">Products</a> <a href="../guides/index.html">Guides</a></nav></header>
+<main><article><h2>How to send automatic appointment reminder emails from Google Sheets</h2>
+<p>If you run a salon, clinic, tutoring practice or any business that works by appointment, a forgotten booking is an empty chair and lost income. A reminder email a day or two ahead fixes most of it. You can do this for free with a Google Sheet and a short Apps Script.</p>
+<h3>What you need</h3>
+<ul>
+<li>A Google account</li>
+<li>A Google Sheet with one booking per row and these columns: <em>Client, Client Email, Service, Appointment, Status</em></li>
+<li>The Appointment column formatted as a date and time (Format, Number, Date time)</li>
+</ul>
+<h3>Step 1: Open the script editor</h3>
+<p>In the Sheet, click <strong>Extensions</strong>, then <strong>Apps Script</strong>. Delete the sample code in the editor.</p>
+<h3>Step 2: Add the reminder function</h3>
+<p>Paste this in. It emails anyone whose appointment is less than 48 hours away and whose Status is <em>Booked</em>:</p>
+<pre><code>function sendReminders() {
+  var sheet = SpreadsheetApp.getActiveSheet();
+  var rows = sheet.getDataRange().getValues();
+  var now = new Date();
+  for (var i = 1; i &lt; rows.length; i++) {
+    var name = rows[i][0], email = rows[i][1], service = rows[i][2];
+    var when = rows[i][3], status = rows[i][4], sent = rows[i][5];
+    var hoursAway = (when - now) / 3600000;
+    if (status === &quot;Booked&quot; &amp;&amp; !sent &amp;&amp; hoursAway &gt; 0 &amp;&amp; hoursAway &lt;= 48) {
+      MailApp.sendEmail(email, &quot;Reminder: &quot; + service + &quot; on &quot; + when.toDateString(),
+        &quot;Hi &quot; + name + &quot;, this is a reminder of your &quot; + service + &quot; on &quot; + when.toLocaleString() + &quot;.&quot;);
+      sheet.getRange(i + 1, 6).setValue(new Date());
+    }
+  }
+}</code></pre>
+<p>Put the heading <em>Reminder Sent</em> in column F. The script writes the time there so nobody is emailed twice.</p>
+<h3>Step 3: Run it on a timer</h3>
+<p>Click the clock icon (<strong>Triggers</strong>), then <strong>Add Trigger</strong>. Choose <code>sendReminders</code>, <strong>Time-driven</strong>, <strong>Hour timer</strong>, every hour. Approve the permissions prompt the first time (click <strong>Advanced</strong>, then <strong>Go to project</strong>).</p>
+<h3>Test it first</h3>
+<p>Add a row with your own email and an appointment a few hours from now, then click <strong>Run</strong> once. Check that the email arrives and column F fills in. Delete the test row afterward.</p>
+<h3>Limits of the simple version</h3>
+<ul>
+<li>It sends one reminder only. A second reminder a few hours before the visit needs more logic.</li>
+<li>A booking made at the last minute is treated the same as one made last week.</li>
+<li>It reads columns by position, so moving a column breaks it.</li>
+<li>Free Google accounts can send roughly 100 emails a day.</li>
+</ul>
+<p>If you want two reminders per booking, a cancellation status that stops them, a test mode that sends everything to you, and column names you can change, that is the next step up from this script.</p>
+<h3>Common problems</h3>
+<ul>
+<li><strong>No email arrives:</strong> check that the Appointment cell is a real date and not text. Left-aligned values are usually text.</li>
+<li><strong>Wrong time in the email:</strong> set your time zone under <strong>File, Settings</strong> in the Sheet.</li>
+<li><strong>"Authorization required":</strong> run the function once by hand and approve access.</li>
+</ul></article></main>
+<footer>Payments and tax handled by our merchant of record. Questions or refunds: reply to your receipt email.</footer>
+</body></html>

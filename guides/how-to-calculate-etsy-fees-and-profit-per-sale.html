@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to calculate Etsy fees and your real profit per sale</title>
+<meta name="description" content="Etsy shows you a sale price. It does not show you what you keep. Between the listing fee, the transaction fee, payment processing and your own costs, a $28 mug ">
+<link rel="stylesheet" href="../style.css">
+</head><body>
+<header><a class="brand" href="../index.html">Small Business Automations</a><nav><a href="../index.html#products">Products</a> <a href="../guides/index.html">Guides</a></nav></header>
+<main><article><h2>How to calculate Etsy fees and your real profit per sale</h2>
+<p>Etsy shows you a sale price. It does not show you what you keep. Between the listing fee, the transaction fee, payment processing and your own costs, a $28 mug can leave you with far less than it looks like. A small spreadsheet turns that into one number per product.</p>
+<h3>The fees to count</h3>
+<p>Etsy's fees change, so read your own fee statement and use those numbers. At the time of writing, a US seller typically sees:</p>
+<ul>
+<li><strong>Listing fee:</strong> a flat amount (about $0.20) each time an item is listed and each time it sells</li>
+<li><strong>Transaction fee:</strong> a percentage (about 6.5%) of the item price plus the shipping you charge</li>
+<li><strong>Payment processing:</strong> a percentage (about 3%) plus a small fixed amount (about $0.25) in the US, and different elsewhere</li>
+<li><strong>Offsite Ads:</strong> a larger percentage (about 12 to 15%) of the order, charged only on sales that came through Etsy's ads</li>
+</ul>
+<p>The percentages apply to what the buyer pays, which is the price plus the shipping you charge. That detail is easy to miss.</p>
+<h3>Count your own costs too</h3>
+<p>Fees are only half of it. Per sale, also subtract:</p>
+<ul>
+<li>What the item cost you to make or buy</li>
+<li>What you pay the carrier to ship it</li>
+<li>Packaging</li>
+</ul>
+<h3>The formula</h3>
+<p>Put one product per row. With price in B, shipping charged in C, item cost in D, shipping cost in E and packaging in F:</p>
+<pre><code>Revenue        = B + C
+Etsy fees      = listing + fixed processing + Revenue * (transaction + processing rates)
+Profit         = Revenue - Etsy fees - D - E - F
+Margin         = Profit / Revenue</code></pre>
+<p>Add the Offsite Ads rate to the percentage only for products that sell through ads.</p>
+<h3>Work backward to a price</h3>
+<p>The useful question is not what you made, but what to charge. Pick the margin you want and solve for revenue:</p>
+<pre><code>Revenue = (listing + fixed fee + D + E + F) / (1 - fee rates - target margin)
+Price   = Revenue - shipping charged</code></pre>
+<p>If the fee rates plus your target margin add up to 100% or more, no price works, and the sheet should say so instead of showing a nonsense number.</p>
+<h3>What usually turns up</h3>
+<ul>
+<li>Cheap items with free shipping lose the most, because the fixed fees and shipping are a large share of a small price.</li>
+<li>A sale that came through Offsite Ads can cost you twice what an organic sale does. Check which products those are.</li>
+<li>Digital downloads keep the best margins because there is no item cost, shipping or packaging.</li>
+</ul>
+<h3>Next step</h3>
+<p>Build this once for all your products and look at the margin column. Raise the price on anything below your target, or cut the costs you can control. Check the fee rates again each time Etsy announces a change.</p>
+<p><em>A planning guide, not tax or accounting advice.</em></p></article></main>
+<footer>Payments and tax handled by our merchant of record. Questions or refunds: reply to your receipt email.</footer>
+</body></html>
