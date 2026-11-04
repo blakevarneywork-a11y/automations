@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to send an automatic reply email from Google Forms</title>
+<meta name="description" content="Google Forms can email *you* when someone responds, but it has no built-in way to email a confirmation to the person who filled it out. Here are the three ways ">
+<link rel="stylesheet" href="../style.css">
+</head><body>
+<header><a class="brand" href="../index.html">Small Business Automations</a><nav><a href="../index.html#products">Products</a> <a href="../guides/index.html">Guides</a></nav></header>
+<main><article><h2>How to send an automatic reply email from Google Forms</h2>
+<p>Google Forms can email <em>you</em> when someone responds, but it has no built-in way to email a confirmation to the person who filled it out. Here are the three ways to do it, from simplest to most complete.</p>
+<h3>Option 1: "Send responders a copy" (built in, very limited)</h3>
+<ol>
+<li>Open your form and click <strong>Settings</strong>.</li>
+<li>Under <strong>Responses</strong>, turn on <strong>Collect email addresses</strong>.</li>
+<li>Set <strong>Send responders a copy of their response</strong> to <strong>Always</strong>.</li>
+</ol>
+<p>This sends a plain copy of the answers. You can't change the wording, add your business name, or say when you'll call back. Many people never notice it.</p>
+<h3>Option 2: Write a short Apps Script (free, about 30 minutes)</h3>
+<p>Every Google Form can run Apps Script. Open the form, click the three dots, and choose <strong>Script editor</strong>. Then add a function that runs on form submit:</p>
+<pre><code>function onFormSubmit(e) {
+  var email = e.response.getRespondentEmail();
+  MailApp.sendEmail(email, &quot;We received your request&quot;,
+    &quot;Thanks for reaching out! We&#x27;ll get back to you within one business day.&quot;);
+}</code></pre>
+<p>Next, open <strong>Triggers</strong> (the clock icon) and add a trigger for <code>onFormSubmit</code> on the <strong>On form submit</strong> event. Approve the permissions prompt.</p>
+<p>This works, but it only covers the reply. You still won't get a formatted alert, and nothing reminds you when a lead sits untouched for a day.</p>
+<h3>Option 3: A ready-made script with alerts and reminders</h3>
+<p>If the form is how customers reach your business, a missed or late reply usually means a lost job. Our <a href="../p/form-auto-reply.html">Google Forms Auto-Reply + Lead Reminder</a> script installs in about 15 minutes and adds:</p>
+<ul>
+<li>a friendly auto-reply in your business's voice</li>
+<li>an instant alert to you with the lead's name, phone and message</li>
+<li>a reminder if a lead is still marked "New" after 4 hours</li>
+<li>one polite follow-up to the lead after 48 hours if nobody has replied</li>
+<li>a test mode, so you can try everything on yourself first</li>
+</ul>
+<p>It runs entirely inside your own Google account. There's no subscription and no third-party app.</p>
+<h3>Common problems</h3>
+<ul>
+<li><strong>No email arrives:</strong> check that <strong>Collect email addresses</strong> is on and that the trigger exists under <strong>Triggers</strong>.</li>
+<li><strong>"Authorization required":</strong> the first run needs you to approve Gmail access. Click <strong>Advanced</strong>, then <strong>Go to project</strong>.</li>
+<li><strong>Emails land in spam:</strong> keep the subject plain and send from the same Google account that owns the form.</li>
+</ul></article></main>
+<footer>Payments and tax handled by our merchant of record. Questions or refunds: reply to your receipt email.</footer>
+</body></html>
