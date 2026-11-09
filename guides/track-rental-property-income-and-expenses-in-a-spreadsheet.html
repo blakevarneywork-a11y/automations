@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to track rental property income and expenses in a spreadsheet</title>
+<meta name="description" content="A small landlord does not need accounting software. A spreadsheet with the right layout tells you what each property earns, what it costs, and what you will nee">
+<link rel="stylesheet" href="../style.css">
+</head><body>
+<header><a class="brand" href="../index.html">Small Business Automations</a><nav><a href="../index.html#products">Products</a> <a href="../guides/index.html">Guides</a></nav></header>
+<main><article><h2>How to track rental property income and expenses in a spreadsheet</h2>
+<p>A small landlord does not need accounting software. A spreadsheet with the right layout tells you what each property earns, what it costs, and what you will need to hand your tax preparer in the new year. The trick is the layout. Most homemade landlord sheets fall apart because every month is a new tab and nothing adds up across them.</p>
+<h3>Use two ledgers, not one tab per month</h3>
+<p>Keep every payment you receive on one sheet, and every bill you pay on another. One row each. Do not split by month or by property. Summaries can slice a single list any way you like. Twelve separate tabs cannot.</p>
+<p><strong>Income ledger columns:</strong> Date, Property, Tenant, Type (rent, late fee, pet fee), Amount.</p>
+<p><strong>Expense ledger columns:</strong> Date, Property, Category, Vendor, Amount.</p>
+<h3>Pick the property and category from a list</h3>
+<p>A typo is the most common reason a total comes out wrong. "Maple St A" and "Maple St. A" are two different properties to a formula. In Excel and Google Sheets, use data validation to turn those columns into drop-downs fed from a short list on a settings sheet. You then fix a name once, in one place.</p>
+<h3>Use the categories your tax form uses</h3>
+<p>Landlords in the US report rental expenses by category: advertising, insurance, repairs, utilities, property taxes, management fees, mortgage interest and so on. Logging each bill under one of those headings as you go means the year-end summary is already done. Ask your tax preparer for the exact list that applies to you.</p>
+<p>Two things trip people up:</p>
+<ul>
+<li><strong>Mortgage payments.</strong> Only the interest is an expense. The principal you pay down is not.</li>
+<li><strong>Security deposits.</strong> A deposit you hold is not income. If you keep part of it for damage, that part is.</li>
+</ul>
+<h3>Sum by month with SUMIFS</h3>
+<p>To total one month of income for one property, use <code>SUMIFS</code>. With dates in column A, properties in B and amounts in E on a sheet called Income, and the first of the month in a cell:</p>
+<p><code>=SUMIFS(Income!E:E, Income!A:A, "&gt;="&amp;A6, Income!A:A, "&lt;"&amp;EDATE(A6,1), Income!B:B, "Maple St A")</code></p>
+<p>The same pattern with a category column gives you expenses by category for the year. Wrap it in an <code>IF</code> that skips the property filter when you want every property at once.</p>
+<h3>Add a check for incomplete rows</h3>
+<p>A row with an amount but no date, or no property, drops out of every <code>SUMIFS</code> silently. Add a few <code>COUNTIFS</code> cells that count those rows, for example amounts where the property is blank, and look at them before you trust a total.</p>
+<h3>Compare rent expected to rent collected</h3>
+<p>Put a monthly rent target next to each property, multiply by 12, and set it beside the rent actually collected. The gap is your vacancy, your late payers and your concessions, in one number.</p>
+<h3>Skip the build</h3>
+<p>If you would rather not set all this up, the <a href="../p/rental-property-tracker.html">Rental Property Tracker</a> is this layout already built: income and expense ledgers with drop-downs, a monthly sheet with a chart, a by-property year summary with expenses split by category, and an "entries to fix" check. It runs in Excel, LibreOffice or Google Sheets, with plain formulas and no macros.</p>
+<p><em>This guide is general bookkeeping information, not tax advice.</em></p></article></main>
+<footer>Payments and tax handled by our merchant of record. Questions or refunds: reply to your receipt email.</footer>
+</body></html>

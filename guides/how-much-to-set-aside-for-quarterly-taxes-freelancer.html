@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How much to set aside for quarterly taxes as a freelancer (with a spreadsheet)</title>
+<meta name="description" content="When you work for yourself, nobody withholds tax from your pay. In the US that usually means paying estimated tax four times a year, and the hardest part is not">
+<link rel="stylesheet" href="../style.css">
+</head><body>
+<header><a class="brand" href="../index.html">Small Business Automations</a><nav><a href="../index.html#products">Products</a> <a href="../guides/index.html">Guides</a></nav></header>
+<main><article><h2>How much to set aside for quarterly taxes as a freelancer (with a spreadsheet)</h2>
+<p>When you work for yourself, nobody withholds tax from your pay. In the US that usually means paying estimated tax four times a year, and the hardest part is not the payment. It is knowing how much of each client payment is really yours to spend. A simple spreadsheet answers that question every time money comes in.</p>
+<h3>Save a share of profit, not of income</h3>
+<p>Taxes are owed on profit: what clients paid you minus what the business spent. So the number to watch is net profit, and the habit to build is moving a fixed share of it into a separate savings account.</p>
+<p>That share is your set-aside rate. Many freelancers use something between 25% and 35%, because it has to cover income tax and self-employment tax together. The right figure depends on your income, your state, your deductions and your household, so ask a tax professional for yours. Then use it every quarter without rethinking it.</p>
+<h3>Use two ledgers</h3>
+<p>Keep one list of money in and one list of money out. One row per payment. Do not split by month or by client: a single list can be summed any way you like.</p>
+<p><strong>Income columns:</strong> Date, Client, Invoice number, Description, Amount.</p>
+<p><strong>Expense columns:</strong> Date, Vendor, Category, Description, Amount, Business use %.</p>
+<p>Business use % matters for things you use partly for work, such as a phone, home internet or a laptop. If your internet is half work, enter the full bill and 50%. The sheet counts half.</p>
+<h3>Add a quarter column</h3>
+<p>Next to each row, work out which quarter it belongs to:</p>
+<pre><code>=IF(A2=&quot;&quot;,&quot;&quot;,ROUNDUP(MONTH(A2)/3,0))</code></pre>
+<p>That turns January to March into 1, April to June into 2, and so on.</p>
+<h3>Build the quarterly summary</h3>
+<p>Make a small table with one row per quarter:</p>
+<ul>
+<li><strong>Income:</strong> <code>=SUMIFS(Income!E:E, Income!F:F, 1)</code> for Q1, and 2, 3, 4 for the others</li>
+<li><strong>Deductible expenses:</strong> the same, summing the deductible column of the Expenses sheet</li>
+<li><strong>Net profit:</strong> income minus expenses</li>
+<li><strong>Set aside:</strong> <code>=MAX(0, net profit) * rate</code></li>
+<li><strong>Paid:</strong> what you actually sent</li>
+<li><strong>Still to pay:</strong> set aside minus paid</li>
+</ul>
+<h3>Know the usual due dates</h3>
+<p>US federal estimated payments are usually due April 15, June 15, September 15 and January 15 of the following year. The IRS payment periods behind those dates are not equal calendar quarters (the second covers only April and May), but for setting money aside, calendar quarters work fine. Dates move when they fall on a weekend or holiday. Check the current dates for your situation, and any state deadlines too.</p>
+<h3>Total expenses by category</h3>
+<p>At year end your tax preparer will want expenses grouped: software, equipment, travel, professional fees and so on. Give every expense a category from a fixed drop-down list, then total them with <code>SUMIFS</code> on the category column. You will have the summary ready instead of rebuilding it from bank statements.</p>
+<h3>Skip the build</h3>
+<p>If you would rather not set all this up, the <a href="../p/freelancer-tax-tracker.html">Freelancer Income and Quarterly Tax Tracker</a> is this layout already built: income and expense ledgers, a Business use % column, a quarterly tax sheet with due dates and what is still to pay, expenses by category, and a monthly chart. It runs in Excel, LibreOffice or Google Sheets, with plain formulas and no macros.</p>
+<p><em>This guide is general information, not tax advice. Ask a tax professional about your own situation.</em></p></article></main>
+<footer>Payments and tax handled by our merchant of record. Questions or refunds: reply to your receipt email.</footer>
+</body></html>

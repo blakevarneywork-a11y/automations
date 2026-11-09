@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to run a Google Sheets script on a schedule (time-driven triggers)</title>
+<meta name="description" content="An Apps Script that only runs when you open the Sheet and click a button is not much of an automation. A time-driven trigger makes it run by itself every day, e">
+<link rel="stylesheet" href="../style.css">
+</head><body>
+<header><a class="brand" href="../index.html">Small Business Automations</a><nav><a href="../index.html#products">Products</a> <a href="../guides/index.html">Guides</a></nav></header>
+<main><article><h2>How to run a Google Sheets script on a schedule (time-driven triggers)</h2>
+<p>An Apps Script that only runs when you open the Sheet and click a button is not much of an automation. A time-driven trigger makes it run by itself every day, every week, or every hour, even when the Sheet is closed.</p>
+<h3>Set up a trigger in the editor</h3>
+<ol>
+<li>Open the Sheet, then choose <strong>Extensions, then Apps Script</strong>.</li>
+<li>Click the <strong>clock icon</strong> (Triggers) in the left sidebar.</li>
+<li>Click <strong>Add Trigger</strong> at the bottom right.</li>
+<li>Choose the function to run, set <strong>Event source</strong> to <strong>Time-driven</strong>, and pick the interval: minutes, hours, day, week or month.</li>
+<li>Save, and approve the permissions prompt the first time. Click <strong>Advanced</strong>, then <strong>Go to project</strong>.</li>
+</ol>
+<p>Pick a time window for daily triggers (for example 8am to 9am). Google runs it at some point inside that hour, not at an exact minute.</p>
+<h3>Or create the trigger in code</h3>
+<p>If you want a script to install its own trigger, run this once:</p>
+<pre><code>function installDailyTrigger() {
+  ScriptApp.newTrigger(&quot;myFunction&quot;)
+    .timeBased()
+    .everyDays(1)
+    .atHour(8)
+    .create();
+}</code></pre>
+<p>Run it only once. Every run adds another trigger, and duplicates mean duplicate emails. To clean up, call <code>ScriptApp.getProjectTriggers()</code> and delete extras with <code>ScriptApp.deleteTrigger(t)</code>.</p>
+<h3>Problems that catch people</h3>
+<ul>
+<li><strong>It runs but nothing happens:</strong> open <strong>Executions</strong> in the sidebar and read the error. Most failures are a renamed sheet tab or a column that moved.</li>
+<li><strong>It stopped working after a while:</strong> the trigger belongs to the account that created it. If that account loses access to the Sheet, or you changed its password and the authorization expired, open the editor and re-approve.</li>
+<li><strong>Duplicate messages:</strong> you have two triggers on the same function. Check the Triggers list.</li>
+<li><strong>Time zone is wrong:</strong> set it under <strong>Project Settings</strong> in the Apps Script editor. It is separate from the spreadsheet's time zone.</li>
+<li><strong>Quota limits:</strong> free Google accounts can send about 100 emails a day and a script can run for about 6 minutes per execution. Stop early and carry on at the next run if you hit the limit.</li>
+</ul>
+<h3>Two scripts that already use this</h3>
+<p>If you would rather not write and test the logic yourself, these run on a daily trigger inside your own Google account:</p>
+<ul>
+<li><a href="../p/invoice-reminder.html">Overdue Invoice Reminders for Google Sheets</a> sends staged reminders and a daily summary of what is owed.</li>
+<li><a href="../p/appointment-reminder.html">Appointment Reminder Emails for Google Sheets</a> emails clients before their appointment.</li>
+</ul>
+<p>Both include a test mode that sends everything to you first, so you can check the output before a client sees it.</p></article></main>
+<footer>Payments and tax handled by our merchant of record. Questions or refunds: reply to your receipt email.</footer>
+</body></html>

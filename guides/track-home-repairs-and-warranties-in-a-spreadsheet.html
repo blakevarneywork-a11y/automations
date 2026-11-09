@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to track home repairs, appliances and warranties in one spreadsheet</title>
+<meta name="description" content="Most people find out a warranty existed after it expired. The receipt is in a drawer, the model number is on a sticker behind the fridge, and nobody remembers w">
+<link rel="stylesheet" href="../style.css">
+</head><body>
+<header><a class="brand" href="../index.html">Small Business Automations</a><nav><a href="../index.html#products">Products</a> <a href="../guides/index.html">Guides</a></nav></header>
+<main><article><h2>How to track home repairs, appliances and warranties in one spreadsheet</h2>
+<p>Most people find out a warranty existed after it expired. The receipt is in a drawer, the model number is on a sticker behind the fridge, and nobody remembers who fixed the water heater last time. One spreadsheet fixes all three problems.</p>
+<h3>Sheet 1: Appliances and systems</h3>
+<p>One row per item: furnace, water heater, dishwasher, roof, washer, garage door opener.</p>
+<p><strong>Columns:</strong> Item, Location, Brand, Model number, Serial number, Purchase date, Price, Warranty length (months), Warranty end date, Manual link.</p>
+<p>Calculate the warranty end date instead of typing it:</p>
+<pre><code>=IF(F2=&quot;&quot;,&quot;&quot;,EDATE(F2,H2))</code></pre>
+<p>Add a status column so expiring warranties stand out:</p>
+<pre><code>=IF(I2=&quot;&quot;,&quot;&quot;,IF(I2&lt;TODAY(),&quot;Expired&quot;,IF(I2-TODAY()&lt;=60,&quot;Expires soon&quot;,&quot;Active&quot;)))</code></pre>
+<p>Then add a conditional format that colors "Expires soon" amber. Check that column once a month and you will catch the window where a claim is still free.</p>
+<h3>Sheet 2: Repair and service log</h3>
+<p>Keep this as one running list, newest at the bottom.</p>
+<p><strong>Columns:</strong> Date, Item, What was done, Who did it, Phone, Cost, Receipt link, Next service due.</p>
+<p>Because every row names the item, <code>SUMIFS</code> shows what each appliance has cost you over time. When a repair bill starts to approach a replacement price, the sheet makes the decision for you.</p>
+<h3>Sheet 3: Recurring tasks</h3>
+<p>Filters, smoke detector batteries, gutter cleaning, water heater flush. Columns: Task, How often (days), Last done, Next due.</p>
+<pre><code>=IF(C2=&quot;&quot;,&quot;&quot;,C2+B2)</code></pre>
+<p>Sort by Next due and the top of the list is your to-do list.</p>
+<h3>Keep the paperwork findable</h3>
+<p>Photograph the model and serial sticker and receipt, store the images in one folder, and paste the link into the row. Do this the day you buy or repair something, not later.</p>
+<h3>Skip the build</h3>
+<p>If you would rather not set this up, the <a href="../p/home-maintenance-binder.html">Home Maintenance Binder</a> is this layout already built, with seasonal checklists included.</p></article></main>
+<footer>Payments and tax handled by our merchant of record. Questions or refunds: reply to your receipt email.</footer>
+</body></html>

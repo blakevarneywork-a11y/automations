@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to send overdue invoice reminders automatically from Google Sheets</title>
+<meta name="description" content="If you track invoices in a spreadsheet, you already have everything needed to chase late payments without writing each email by hand. Here are two ways to do it">
+<link rel="stylesheet" href="../style.css">
+</head><body>
+<header><a class="brand" href="../index.html">Small Business Automations</a><nav><a href="../index.html#products">Products</a> <a href="../guides/index.html">Guides</a></nav></header>
+<main><article><h2>How to send overdue invoice reminders automatically from Google Sheets</h2>
+<p>If you track invoices in a spreadsheet, you already have everything needed to chase late payments without writing each email by hand. Here are two ways to do it, from a quick script to a complete setup.</p>
+<h3>What you need first</h3>
+<p>A Google Sheet with one invoice per row and these columns in row 1: <strong>Invoice #</strong>, <strong>Client</strong>, <strong>Client Email</strong>, <strong>Amount</strong>, <strong>Due Date</strong>, <strong>Status</strong>. Format Due Date as a date, and use <strong>Unpaid</strong> or <strong>Paid</strong> in Status.</p>
+<h3>Option 1: A short Apps Script (free, about 30 minutes)</h3>
+<p>Open the Sheet, choose <strong>Extensions, then Apps Script</strong>, and add a function that emails every unpaid row whose due date has passed:</p>
+<pre><code>function remindOverdue() {
+  var sheet = SpreadsheetApp.getActiveSheet();
+  var rows = sheet.getDataRange().getValues();
+  var today = new Date();
+  for (var i = 1; i &lt; rows.length; i++) {
+    var email = rows[i][2], due = rows[i][4], status = rows[i][5];
+    if (status === &quot;Unpaid&quot; &amp;&amp; due &lt; today) {
+      MailApp.sendEmail(email, &quot;Invoice &quot; + rows[i][0] + &quot; is overdue&quot;,
+        &quot;Hi &quot; + rows[i][1] + &quot;, a quick reminder that invoice &quot; + rows[i][0] + &quot; was due &quot; + due.toDateString() + &quot;.&quot;);
+    }
+  }
+}</code></pre>
+<p>Then open <strong>Triggers</strong> (the clock icon) and add a <strong>time-driven</strong> trigger to run <code>remindOverdue</code> once a day. Approve the permissions prompt the first time.</p>
+<h3>The catch with the short version</h3>
+<p>This works, but it has three problems that show up quickly:</p>
+<ul>
+<li><strong>It emails every day.</strong> A client who is late gets the same message every morning until they pay, which is how you lose a customer.</li>
+<li><strong>It has one tone.</strong> A reminder one day late and a reminder a month late should not read the same.</li>
+<li><strong>You get no summary.</strong> Nothing tells you how much money is outstanding.</li>
+</ul>
+<p>The fix is to record when each reminder was sent in extra columns, and to send a different message at each stage.</p>
+<h3>Option 2: A ready-made script with stages and a summary</h3>
+<p>If you would rather not build and test that yourself, <a href="../p/invoice-reminder.html">Overdue Invoice Reminders for Google Sheets</a> does it for you:</p>
+<ul>
+<li>a friendly reminder 1 day after the due date, a firmer one at 7 days, and a final notice at 14 days (you can change the timing)</li>
+<li>only one email per invoice per run, and never a backlog: an invoice that is already a month late gets one final notice</li>
+<li>a daily summary email to you with every overdue invoice and the total owed</li>
+<li>a Status dropdown, so setting a row to <strong>Paid</strong> stops the reminders</li>
+<li>a test mode that sends everything to you first</li>
+</ul>
+<p>It runs inside your own Google account, so there is no subscription and no third-party app.</p>
+<h3>Common problems</h3>
+<ul>
+<li><strong>Nothing sends:</strong> check that Due Date cells are real dates (right-aligned), not text, and that Status says exactly <strong>Unpaid</strong>.</li>
+<li><strong>"Authorization required":</strong> the first run needs you to approve Gmail access. Click <strong>Advanced</strong>, then <strong>Go to project</strong>.</li>
+<li><strong>Emails land in spam:</strong> send from the same Google account that owns the Sheet, and keep the subject plain.</li>
+<li><strong>Daily limit:</strong> free Google accounts can send about 100 emails a day, which is plenty for most small businesses.</li>
+</ul></article></main>
+<footer>Payments and tax handled by our merchant of record. Questions or refunds: reply to your receipt email.</footer>
+</body></html>
